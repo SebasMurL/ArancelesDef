@@ -15,5 +15,6 @@ namespace lib_repositorios.Implementaciones
         }
 
         public DbSet<Paises>? Paises { get; set; }
+        public DbSet<Empresas>? Empresas { get; set; }
     }
 }
