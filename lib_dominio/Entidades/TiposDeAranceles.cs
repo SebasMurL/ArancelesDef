@@ -9,6 +9,7 @@ namespace lib_dominio.Entidades
         [Key] public int? Id { get; set; }
         public string? Nombre { get; set; }
         public DateTime? FechaVigencia { get; set; }
+
         //Envia 1
         // public List<Aranceles>? Aranceles { get; set; }
     }
