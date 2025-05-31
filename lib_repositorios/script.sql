@@ -21,7 +21,7 @@ INSERT INTO [Paises] ([Nombre],[Moneda])
 VALUES ('China', 'Yuan');
 
 INSERT INTO [Empresas] ([Nombre],[Id_Pais])
-VALUES ('Nike', 3);
+VALUES ('Nike', 3); --Id_Pais : 1
 
 SELECT * FROM [Paises];
 

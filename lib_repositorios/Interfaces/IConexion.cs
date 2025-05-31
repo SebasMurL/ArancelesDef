@@ -10,6 +10,8 @@ namespace lib_repositorios.Interfaces
         
         DbSet<Paises>? Paises { get; set; }
         DbSet<Empresas>? Empresas { get; set; }
+        DbSet<TiposDeAranceles>? TiposDeAranceles { get; set; }
+
 
         EntityEntry<T> Entry<T>(T entity) where T : class;
         int SaveChanges();

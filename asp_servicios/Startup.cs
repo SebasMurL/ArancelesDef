@@ -27,6 +27,7 @@ namespace asp_servicios
             services.AddScoped<IConexion, Conexion>();
             // Aplicaciones
             services.AddScoped<IPaisesAplicacion, PaisesAplicacion>();
+            services.AddScoped<IEmpresasAplicacion, EmpresasAplicacion>();
 
             // Controladores
             services.AddScoped<TokenController, TokenController>();
