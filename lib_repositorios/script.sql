@@ -49,6 +49,15 @@ CREATE TABLE [Ordenes] --Tabla 5
     [Fecha] SMALLDATETIME NOT NULL
 )
 
+CREATE TABLE [Aranceles] --Tabla 7
+(
+	--4 Atributos
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Cod] NVARCHAR (90) NOT NULL,
+	[Id_Orden]  INT FOREIGN KEY ([Id_Orden] ) REFERENCES [Ordenes] (Id),
+	[Id_TipoDeArancel]  INT FOREIGN KEY ([Id_TipoDeArancel] ) REFERENCES [TiposDeAranceles] (Id),
+    [PorcentajeDelArancel] DECIMAL (15,2) NOT NULL
+)
 
 INSERT INTO [Paises] ([Nombre],[Moneda])
 VALUES ('China', 'Yuan');
@@ -68,6 +77,9 @@ VALUES ('Sudadera',65000,2,1); --Recuerda colocar 1,1
 INSERT INTO [Ordenes] ([Cod],[CantidadUnidades],[Fecha],[Id_PaisDestino],[Id_PaisOrigen],[Id_Producto])
 VALUES ('ABC001',321,GETDATE(),3,4,2); --Recuerda colocar 1,1
 
+INSERT INTO [Aranceles] ([Cod],[Id_TipoDeArancel],[Id_Orden],[PorcentajeDelArancel])
+VALUES ('BFG212',1,3,13); --Recuerda colocar 1,1
+
 SELECT * FROM [Paises];
 
 SELECT * FROM [Empresas];
@@ -79,3 +91,5 @@ SELECT * FROM [TiposDeProductos];
 SELECT * FROM [Productos];
 
 SELECT * FROM [Ordenes];
+
+SELECT * FROM [Aranceles];

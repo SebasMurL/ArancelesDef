@@ -32,6 +32,8 @@ namespace asp_servicios
             services.AddScoped<ITiposDeProductosAplicacion, TiposDeProductosAplicacion>();
             services.AddScoped<IProductosAplicacion, ProductosAplicacion>();
             services.AddScoped<IOrdenesAplicacion, OrdenesAplicacion>();
+            services.AddScoped<IArancelesAplicacion, ArancelesAplicacion>();
+
 
 
 

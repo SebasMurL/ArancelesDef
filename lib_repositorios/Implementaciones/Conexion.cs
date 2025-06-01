@@ -20,6 +20,8 @@ namespace lib_repositorios.Implementaciones
         public DbSet<TiposDeProductos>? TiposDeProductos { get; set; }
         public DbSet<Productos>? Productos { get; set; }
         public DbSet<Ordenes>? Ordenes { get; set; }
+        public DbSet<Aranceles>? Aranceles { get; set; }
+
 
 
 
