@@ -20,6 +20,8 @@ namespace asp_presentacion
             services.AddScoped<ITiposDeArancelesPresentacion, TiposDeArancelesPresentacion>();
             services.AddScoped<ITiposDeProductosPresentacion, TiposDeProductosPresentacion>();
             services.AddScoped<IProductosPresentacion, ProductosPresentacion>();
+            services.AddScoped<IOrdenesPresentacion, OrdenesPresentacion>();
+
 
 
             services.AddControllers();

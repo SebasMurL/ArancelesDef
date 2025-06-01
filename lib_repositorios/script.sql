@@ -36,6 +36,18 @@ CREATE TABLE [Productos] --Tabla 3
     [Nombre] NVARCHAR (100) NOT NULL,
     [PrecioUnitario] DECIMAL (15,2) NOT NULL
 )
+CREATE TABLE [Ordenes] --Tabla 5
+(
+	--7 Atributos
+
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Id_PaisOrigen]  INT FOREIGN KEY ([Id_PaisOrigen] ) REFERENCES [Paises] (Id),
+	[Id_PaisDestino]  INT FOREIGN KEY ([Id_PaisDestino] ) REFERENCES [Paises] (Id),
+	[Id_Producto]  INT FOREIGN KEY ([Id_Producto] ) REFERENCES [Productos] (Id),
+	[Cod] NVARCHAR (90) NOT NULL,
+    [CantidadUnidades] INT NOT NULL,
+    [Fecha] SMALLDATETIME NOT NULL
+)
 
 
 INSERT INTO [Paises] ([Nombre],[Moneda])
@@ -53,6 +65,9 @@ VALUES ('Alimentos','Invima');
 INSERT INTO [Productos] ([Nombre],[PrecioUnitario],[Id_Empresa],[Id_TipoProducto])
 VALUES ('Sudadera',65000,2,1); --Recuerda colocar 1,1
 
+INSERT INTO [Ordenes] ([Cod],[CantidadUnidades],[Fecha],[Id_PaisDestino],[Id_PaisOrigen],[Id_Producto])
+VALUES ('ABC001',321,GETDATE(),3,4,2); --Recuerda colocar 1,1
+
 SELECT * FROM [Paises];
 
 SELECT * FROM [Empresas];
@@ -62,3 +77,5 @@ SELECT * FROM [TiposDeAranceles];
 SELECT * FROM [TiposDeProductos];
 
 SELECT * FROM [Productos];
+
+SELECT * FROM [Ordenes];
