@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace lib_dominio.Entidades
 {
-    public class TiposDeAranceles
+    public class TiposDeProductos
     {
         //3 Atributos
-        [Key] public int Id { get; set; }
+        [Key] public int Id { get; set; } // :) int? != int ; null : 0 
         public string? Nombre { get; set; }
-        public DateTime? FechaVigencia { get; set; }
-        
+        public string? EntidadRegulatoria { get; set; }
     }
 }

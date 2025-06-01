@@ -21,6 +21,12 @@ CREATE TABLE [TiposDeAranceles]
     [Nombre] NVARCHAR (90) NOT NULL,
     [FechaVigencia] SMALLDATETIME NOT NULL,
 )
+CREATE TABLE [TiposDeProductos] --Tabla 4
+(
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+    [Nombre] NVARCHAR (90) NOT NULL,
+    [EntidadRegulatoria] NVARCHAR (90) NOT NULL
+)
 
 
 INSERT INTO [Paises] ([Nombre],[Moneda])
@@ -30,10 +36,15 @@ INSERT INTO [Empresas] ([Nombre],[Id_Pais])
 VALUES ('Nike', 3); --Id_Pais : 1
 
 INSERT INTO [TiposDeAranceles] ([Nombre],[FechaVigencia])
-VALUES ('Ad Valorem', GETDATE()); --Id_Pais : 1
+VALUES ('Ad Valorem', GETDATE()); 
+
+INSERT INTO [TiposDeProductos] ([Nombre],[EntidadRegulatoria])
+VALUES ('Alimentos','Invima'); 
 
 SELECT * FROM [Paises];
 
 SELECT * FROM [Empresas];
 
 SELECT * FROM [TiposDeAranceles];
+
+SELECT * FROM [TiposDeProductos];
