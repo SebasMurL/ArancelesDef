@@ -27,6 +27,15 @@ CREATE TABLE [TiposDeProductos] --Tabla 4
     [Nombre] NVARCHAR (90) NOT NULL,
     [EntidadRegulatoria] NVARCHAR (90) NOT NULL
 )
+CREATE TABLE [Productos] --Tabla 3
+(
+	--5 Atributos
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Id_Empresa]  INT FOREIGN KEY ([Id_Empresa] ) REFERENCES [Empresas] (Id),
+    [Id_TipoProducto] INT FOREIGN KEY ([Id_TipoProducto] ) REFERENCES [TiposDeProductos] (Id),
+    [Nombre] NVARCHAR (100) NOT NULL,
+    [PrecioUnitario] DECIMAL (15,2) NOT NULL
+)
 
 
 INSERT INTO [Paises] ([Nombre],[Moneda])
@@ -41,6 +50,9 @@ VALUES ('Ad Valorem', GETDATE());
 INSERT INTO [TiposDeProductos] ([Nombre],[EntidadRegulatoria])
 VALUES ('Alimentos','Invima'); 
 
+INSERT INTO [Productos] ([Nombre],[PrecioUnitario],[Id_Empresa],[Id_TipoProducto])
+VALUES ('Sudadera',65000,2,1); --Recuerda colocar 1,1
+
 SELECT * FROM [Paises];
 
 SELECT * FROM [Empresas];
@@ -48,3 +60,5 @@ SELECT * FROM [Empresas];
 SELECT * FROM [TiposDeAranceles];
 
 SELECT * FROM [TiposDeProductos];
+
+SELECT * FROM [Productos];
