@@ -22,6 +22,10 @@ namespace lib_repositorios.Implementaciones
         public DbSet<Ordenes>? Ordenes { get; set; }
         public DbSet<Aranceles>? Aranceles { get; set; }
         public DbSet<Facturas>? Facturas { get; set; }
+        public DbSet<Roles>? Roles { get; set; }
+        public DbSet<Usuarios>? Usuarios { get; set; }
+
+
 
 
 

@@ -110,3 +110,44 @@ SELECT * FROM [Ordenes];
 SELECT * FROM [Aranceles];
 SELECT * FROM [Facturas];
 ----------------------------------------------------------------------------------------------
+CREATE TABLE [Roles]
+(
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Cod] NVARCHAR (90) NOT NULL,
+	[Nombre]  NVARCHAR (90) NOT NULL
+)
+GO
+CREATE TABLE [Usuarios]
+(
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Cod] NVARCHAR (90) NOT NULL,
+	[Usuario] NVARCHAR (90) NOT NULL,
+	[Contraseña] NVARCHAR (90) NOT NULL,
+	[Id_Rol]  INT FOREIGN KEY ([Id_Rol] ) REFERENCES [Roles] (Id),
+)
+GO
+CREATE TABLE [Auditoria]
+(
+	[Id] INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+	[Cod] NVARCHAR (90) NOT NULL,
+	[Accion] NVARCHAR (90) NOT NULL,
+	[Entidad] NVARCHAR (90) NOT NULL,
+	[Informacion] NVARCHAR (90) NOT NULL,
+	[Id_Usuario]  INT FOREIGN KEY ([Id_Usuario] ) REFERENCES [Usuarios] (Id),
+	[Fecha] NVARCHAR (90) NOT NULL,
+)
+GO
+-----------------------
+INSERT INTO [Roles] ([Nombre],[Cod])
+VALUES ('Administrador', 'ADM');
+GO
+INSERT INTO [Usuarios] ([Usuario],[Contraseña],[Cod],[Id_Rol])
+VALUES ('Admin', '123','ADM001',1);
+GO
+INSERT INTO [Auditoria] ([Cod],[Accion],[Entidad],[Informacion],[Id_Usuario],[Fecha])
+VALUES ('Prueba', 'Guardar','Paises','Colombia/PesoColombiano',1,GETDATE());
+GO
+-----------------------
+SELECT * FROM [Roles];
+SELECT * FROM [Usuarios];
+SELECT * FROM [Auditoria];

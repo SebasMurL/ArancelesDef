@@ -23,6 +23,10 @@ namespace asp_presentacion
             services.AddScoped<IOrdenesPresentacion, OrdenesPresentacion>();
             services.AddScoped<IArancelesPresentacion, ArancelesPresentacion>();
             services.AddScoped<IFacturasPresentacion, FacturasPresentacion>();
+            services.AddScoped<IRolesPresentacion, RolesPresentacion>();
+            services.AddScoped<IUsuariosPresentacion, UsuariosPresentacion>();
+
+
 
 
 
