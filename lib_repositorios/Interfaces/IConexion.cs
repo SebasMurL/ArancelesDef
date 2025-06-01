@@ -15,6 +15,8 @@ namespace lib_repositorios.Interfaces
         DbSet<Productos>? Productos { get; set; }
         DbSet<Ordenes>? Ordenes { get; set; }
         DbSet<Aranceles>? Aranceles { get; set; }
+        DbSet<Facturas>? Facturas { get; set; }
+
 
 
 
