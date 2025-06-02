@@ -6,7 +6,7 @@
 <center>
     <div>
         <form method="POST"
-            enctype="multipart/form-data">
+              enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <div align="left">
@@ -37,19 +37,19 @@
             </div>
 
             @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
             {
                 <input type="hidden"
-                    asp-for="@Model.Actual!.Id" />
+                       asp-for="@Model.Actual!.Id" />
             }
             <!--Informacio que aparece para borrar-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
             {
                 <input type="hidden"
-                   asp-for="@Model.Actual!.Cod" />
+                       asp-for="@Model.Actual!.Cod" />
                 <input type="hidden"
                        asp-for="@Model.Actual!.Id_Rol" />
-                
+
             }
             <!--Aqui se edita-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
@@ -75,18 +75,23 @@
                                        class="cts_forms form-control"
                                        asp-for="@Model.Actual!.Contraseña" />
                             </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">
-                                Roles
-                            </label>
-                            <div class="col-lg-6">
-                                <select id="nmOrdenes"
-                                        class="form-control"
-                                        asp-for="@Model.Actual!.Id_Rol"
-                                        asp-items="@(new SelectList(Model.ListaRoles,"Id","Cod"))"> <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
-                                </select> <!--El input no soporta asp_items-->
+                            <div class="form-group">
+                                @if (IndexModel.RolGlobal == "1")
+                                {
+                                    <label class="col-lg-4 control-label">
+                                        Roles
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select id="nmOrdenes"
+                                                class="form-control"
+                                                asp-for="@Model.Actual!.Id_Rol"
+                                                asp-items="@(new SelectList(Model.ListaRoles,"Id","Cod"))">
+                                            <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
+                                        </select> <!--El input no soporta asp_items-->
+                                    </div>
+                                }
+
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -95,8 +100,9 @@
             @if (ViewData.ContainsKey("Mensaje"))
             {
                 <input type="hidden"
-                   asp-for="@Model.Accion" />
-                    @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+                       asp-for="@Model.Accion" />
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
             }
             <!--Mensaje para confirmar borrado-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
@@ -117,25 +123,25 @@
                             <br />
                             <br />
                             <input type="submit"
-                               value="Borrar"
-                               asp-page-handler="BtBorrar"
-                               class="btn btn-secondary" />
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
                             <input type="submit"
-                               value="Cerrar"
-                               asp-page-handler="BtCancelar"
-                               class="btn btn-secondary" />
+                                   value="Cerrar"
+                                   asp-page-handler="BtCancelar"
+                                   class="btn btn-secondary" />
                         </div>
                     </div>
                 </div>
             }
             <!--La tabla del inicio-->
-            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar) 
+            @if ((Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+            Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar) && IndexModel.RolGlobal == "1")
             {
                 <input id="flCod"
-                   class="cts_forms form-control"
-                   asp-for="@Model.Filtro!.Cod"
-                   placeholder="Codigo" />
+                       class="cts_forms form-control"
+                       asp-for="@Model.Filtro!.Cod"
+                       placeholder="Codigo" />
                 <br />
                 <!--Columnas-->
                 <div class="containers_vn panel panel-default">
@@ -164,15 +170,15 @@
                                     </td>
                                     <td>
                                         <input type="submit"
-                                           value="Modicar"
-                                           asp-page-handler="BtModificar"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id" />
+                                               value="Modicar"
+                                               asp-page-handler="BtModificar"
+                                               class="btn btn-secondary"
+                                               asp-route-data="@elemento.Id" />
                                         <input type="submit"
-                                           value="Borrar"
-                                           asp-page-handler="BtBorrarVal"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id" />
+                                               value="Borrar"
+                                               asp-page-handler="BtBorrarVal"
+                                               class="btn btn-secondary"
+                                               asp-route-data="@elemento.Id" />
                                     </td>
                                 </tr>
                             }

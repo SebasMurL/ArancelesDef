@@ -5,6 +5,7 @@ using lib_presentaciones.Implementaciones;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 
 namespace asp_presentacion.Pages
 {
@@ -12,8 +13,11 @@ namespace asp_presentacion.Pages
     {
         public bool EstaLogueado = false;
         private Comunicaciones? comunicaciones = null;
+        public static string RolGlobal { get; set; } = string.Empty;
         [BindProperty] public string? Email { get; set; }
         [BindProperty] public string? Contrasena { get; set; }
+        [BindProperty] public string? Email2 { get; set; }
+        [BindProperty] public string? Contrasena2 { get; set; }
         public async Task<List<Usuarios>> CargarUsuarios()
         {
             try
@@ -60,6 +64,40 @@ namespace asp_presentacion.Pages
                 LogConversor.Log(ex, ViewData!);
             }
         }
+        public void OnPostBtClean2()
+        {
+            try
+            {
+                Email2 = string.Empty;
+                Contrasena2 = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                LogConversor.Log(ex, ViewData!);
+            }
+        }
+        public void OnPostBtEnter2()
+        {
+            var Actual = new Usuarios();
+            try
+            {
+                Actual.Usuario = Email2;
+                Actual.Contraseña = Contrasena2;
+                Actual.Cod = (Actual.Usuario.Substring(0, 3).ToUpper() + Actual.Id_Rol + Actual.Id + (4)); //Puede colocar un random, pero aja
+                if (Actual.Id_Rol == null || Actual.Id_Rol == 0)
+                {
+                    Actual.Id_Rol = 2;
+                }
+                if (Actual!.Id == 0)
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                LogConversor.Log(ex, ViewData!);
+            }
+        }
+
 
         public void OnPostBtEnter()
         {
@@ -73,13 +111,14 @@ namespace asp_presentacion.Pages
                     return;
                 }
                 int i = 0;
-                while (i<lista.Count)
+                while (i < lista.Count)
                 {
                     if (lista[i].Usuario == Email &&
                         lista[i].Contraseña == Contrasena)
                     {
                         ViewData["Logged"] = true;
                         HttpContext.Session.SetString("Usuario", Email!);
+                        RolGlobal = lista[i].Id_Rol + "";
                         EstaLogueado = true;
                         OnPostBtClean();
                         return;
@@ -105,6 +144,7 @@ namespace asp_presentacion.Pages
                 HttpContext.Session.Clear();
                 HttpContext.Response.Redirect("/");
                 EstaLogueado = false;
+                IndexModel.RolGlobal = string.Empty;
             }
             catch (Exception ex)
             {

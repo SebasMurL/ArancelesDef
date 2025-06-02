@@ -6,54 +6,58 @@
 <center>
     <div>
         <form method="POST"
-            enctype="multipart/form-data">
+        enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <div align="left">
                 <h3>Aranceles</h3> <!--Comentario-->
             </div>
             <div align="left"
-                 class="bt_panel_buttons">
+            class="bt_panel_buttons">
                 <input type="submit"
-                       value="Refrescar"
-                       asp-page-handler="BtRefrescar"
-                       class="btn btn-secondary"
-                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                value="Refrescar"
+                asp-page-handler="BtRefrescar"
+                class="btn btn-secondary"
+                disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                @if (IndexModel.RolGlobal == "1")
+                {
+                    <input type="submit"
+                    value="Nuevo"
+                    asp-page-handler="BtNuevo"
+                    class="btn btn-secondary"
+                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />}
+                @if (IndexModel.RolGlobal == "1")
+                {
+                    <input type="submit"
+                    value="Guardar"
+                    asp-page-handler="BtGuardar"
+                    class="btn btn-secondary"
+                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />}
                 <input type="submit"
-                       value="Nuevo"
-                       asp-page-handler="BtNuevo"
-                       class="btn btn-secondary"
-                       disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                <input type="submit"
-                       value="Guardar"
-                       asp-page-handler="BtGuardar"
-                       class="btn btn-secondary"
-                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
-                <input type="submit"
-                       value="Cancelar"
-                       asp-page-handler="BtCancelar"
-                       class="btn btn-secondary"
-                       disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                value="Cancelar"
+                asp-page-handler="BtCancelar"
+                class="btn btn-secondary"
+                disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
             </div>
 
             @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+               Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
             {
                 <input type="hidden"
-                    asp-for="@Model.Actual!.Id" />
+                asp-for="@Model.Actual!.Id" />
             }
             <!--Informacio que aparece para borrar-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
             {
                 <input type="hidden"
-                   asp-for="@Model.Actual!.Cod" />
+                asp-for="@Model.Actual!.Cod" />
                 <input type="hidden"
-                       asp-for="@Model.Actual!.Id_Orden" />
+                asp-for="@Model.Actual!.Id_Orden" />
                 <input type="hidden"
-                       asp-for="@Model.Actual!.Id_TipoDeArancel" />
+                asp-for="@Model.Actual!.Id_TipoDeArancel" />
                 <input type="hidden"
-                       asp-for="@Model.Actual!.PorcentajeDelArancel" />
-                
+                asp-for="@Model.Actual!.PorcentajeDelArancel" />
+
             }
             <!--Aqui se edita-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
@@ -68,34 +72,34 @@
                             </label>
                             <div class="col-lg-6">
                                 <input id="nmCod"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Actual!.Cod" />
+                                class="cts_forms form-control"
+                                asp-for="@Model.Actual!.Cod" />
                             </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">
-                                Orden
-                            </label>
-                            <div class="col-lg-6">
-                                <select id="nmOrdenes"
-                                        class="form-control"
-                                        asp-for="@Model.Actual!.Id_Orden"
-                                        asp-items="@(new SelectList(Model.ListaOrdenes,"Id","Cod"))"> <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
-                                </select> <!--El input no soporta asp_items-->
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">
+                                    Orden
+                                </label>
+                                <div class="col-lg-6">
+                                    <select id="nmOrdenes"
+                                    class="form-control"
+                                    asp-for="@Model.Actual!.Id_Orden"
+                                    asp-items="@(new SelectList(Model.ListaOrdenes,"Id","Cod"))"> <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
+                                    </select> <!--El input no soporta asp_items-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 control-label">
-                                TipoDeArancel
-                            </label>
-                            <div class="col-lg-6">
-                                <select id="nmTiposDeAranceles"
-                                        class="form-control"
-                                        asp-for="@Model.Actual!.Id_TipoDeArancel"
-                                        asp-items="@(new SelectList(Model.ListaTiposDeAranceles,"Id","Nombre"))">
-                                    <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
-                                </select> <!--El input no soporta asp_items-->
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">
+                                    TipoDeArancel
+                                </label>
+                                <div class="col-lg-6">
+                                    <select id="nmTiposDeAranceles"
+                                    class="form-control"
+                                    asp-for="@Model.Actual!.Id_TipoDeArancel"
+                                    asp-items="@(new SelectList(Model.ListaTiposDeAranceles,"Id","Nombre"))">
+                                        <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
+                                    </select> <!--El input no soporta asp_items-->
+                                </div>
                             </div>
-                        </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-4 control-label">
@@ -103,11 +107,11 @@
                             </label>
                             <div class="col-lg-6">
                                 <input id="nmPorcentajeDeArancel"
-                                       class="cts_forms form-control"
-                                       asp-for="@Model.Actual!.PorcentajeDelArancel" />
+                                class="cts_forms form-control"
+                                asp-for="@Model.Actual!.PorcentajeDelArancel" />
                             </div>
                         </div>
-                    
+
                     </div>
                 </div>
             }
@@ -115,8 +119,8 @@
             @if (ViewData.ContainsKey("Mensaje"))
             {
                 <input type="hidden"
-                   asp-for="@Model.Accion" />
-                    @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+                asp-for="@Model.Accion" />
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
             <!--Mensaje para confirmar borrado-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
@@ -137,25 +141,25 @@
                             <br />
                             <br />
                             <input type="submit"
-                               value="Borrar"
-                               asp-page-handler="BtBorrar"
-                               class="btn btn-secondary" />
+                            value="Borrar"
+                            asp-page-handler="BtBorrar"
+                            class="btn btn-secondary" />
                             <input type="submit"
-                               value="Cerrar"
-                               asp-page-handler="BtCancelar"
-                               class="btn btn-secondary" />
+                            value="Cerrar"
+                            asp-page-handler="BtCancelar"
+                            class="btn btn-secondary" />
                         </div>
                     </div>
                 </div>
             }
             <!--La tabla del inicio-->
             @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
-                 Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar) 
+               Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar) 
             {
                 <input id="flCod"
-                   class="cts_forms form-control"
-                   asp-for="@Model.Filtro!.Cod"
-                   placeholder="Codigo" />
+                class="cts_forms form-control"
+                asp-for="@Model.Filtro!.Cod"
+                placeholder="Codigo" />
                 <br />
                 <!--Columnas-->
                 <div class="containers_vn panel panel-default">
@@ -194,18 +198,26 @@
                                     <td>
                                         @elemento.PorcentajeDelArancel
                                     </td>
-                                    <td>
-                                        <input type="submit"
-                                           value="Modicar"
-                                           asp-page-handler="BtModificar"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id" />
-                                        <input type="submit"
-                                           value="Borrar"
-                                           asp-page-handler="BtBorrarVal"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id" />
-                                    </td>
+                                    @if (IndexModel.RolGlobal == "1")
+                                    {
+                                        <td>
+                                            <input type="submit"
+                                            value="Modicar"
+                                            asp-page-handler="BtModificar"
+                                            class="btn btn-secondary"
+                                            asp-route-data="@elemento.Id" />
+                                            <input type="submit"
+                                            value="Borrar"
+                                            asp-page-handler="BtBorrarVal"
+                                            class="btn btn-secondary"
+                                            asp-route-data="@elemento.Id" />
+                                        </td>
+                                    }else
+                                    {   
+                                        <td>
+                                         No tienes acciones
+                                        </td>
+                                    }
                                 </tr>
                             }
                         }
