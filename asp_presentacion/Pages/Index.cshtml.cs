@@ -118,7 +118,8 @@ namespace asp_presentacion.Pages
                     {
                         ViewData["Logged"] = true;
                         HttpContext.Session.SetString("Usuario", Email!);
-                        RolGlobal = lista[i].Id_Rol + "";
+                        if (lista[i].Cod.Substring(0,3) == "ADM")
+                        { RolGlobal = "1"; }
                         EstaLogueado = true;
                         OnPostBtClean();
                         return;

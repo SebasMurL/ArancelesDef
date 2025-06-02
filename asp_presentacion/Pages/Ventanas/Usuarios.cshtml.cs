@@ -99,7 +99,7 @@ namespace asp_presentacion.Pages.Ventanas
                 Accion = Enumerables.Ventanas.Editar;
 
                 Task<Usuarios>? task = null;
-                Actual.Cod = (Actual.Usuario.Substring(0, 3).ToUpper() + Actual.Id_Rol + Actual.Id + (4)); //Puede colocar un random, pero aja
+                Actual.Cod = (ListaRoles[(Actual.Id_Rol.Value)-1].Cod.Substring(0, 3).ToUpper() + Actual.Id_Rol + Actual.Id + (4)); //Puede colocar un random, pero aja
                 if (Actual!.Id == 0)
                 {
                     task = this.iPresentacion!.Guardar(Actual!)!;
