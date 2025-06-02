@@ -85,7 +85,7 @@
                                         <select id="nmOrdenes"
                                                 class="form-control"
                                                 asp-for="@Model.Actual!.Id_Rol"
-                                                asp-items="@(new SelectList(Model.ListaRoles,"Id","Cod"))">
+                                                asp-items="@(new SelectList(Model.ListaRoles,"Id","Nombre"))">
                                             <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
                                         </select> <!--El input no soporta asp_items-->
                                     </div>

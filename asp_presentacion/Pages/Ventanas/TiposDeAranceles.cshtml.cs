@@ -1,5 +1,6 @@
 using lib_dominio.Entidades;
 using lib_dominio.Nucleo;
+using lib_presentaciones;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -92,9 +93,16 @@ namespace asp_presentacion.Pages.Ventanas
 
                 Task<TiposDeAranceles>? task = null;
                 if (Actual!.Id == 0)
+                {
                     task = this.iPresentacion!.Guardar(Actual!)!;
+                    GuardarAuditoria("Gua", "Guardar", "TiposDeAranceles", Actual.Nombre, IndexModel.UsuarioGlobal, DateTime.Now);
+
+                }
                 else
+                {
                     task = this.iPresentacion!.Modificar(Actual!)!;
+                    GuardarAuditoria("Mod", "Modificar", "TiposDeAranceles", Actual.Nombre, IndexModel.UsuarioGlobal, DateTime.Now);
+                }
                 task.Wait();
                 Actual = task.Result;
                 Accion = Enumerables.Ventanas.Listas;
@@ -125,6 +133,8 @@ namespace asp_presentacion.Pages.Ventanas
             try
             {
                 var task = this.iPresentacion!.Borrar(Actual!);
+                GuardarAuditoria("Bor", "Borrar", "TiposDeAranceles", Actual.Nombre, IndexModel.UsuarioGlobal, DateTime.Now);
+
                 Actual = task.Result;
                 OnPostBtRefrescar();
             }
@@ -158,6 +168,48 @@ namespace asp_presentacion.Pages.Ventanas
             {
                 LogConversor.Log(ex, ViewData!);
             }
+        }
+        //Copiar todo aqui
+        public async Task GuardarAuditoria(string Codigo, string Accion, string Entidad, string Informacion, int id_Usuario, DateTime Fecha)
+        {
+            var Actual = new Auditorias();
+            try
+            {
+                Actual.Cod = Codigo;
+                Actual.Accion = Accion;
+                Actual.Entidad = Entidad;
+                Actual.Informacion = Informacion;
+                Actual.Id_Usuario = id_Usuario;
+                Actual.Fecha = Fecha;
+                await Guardar(Actual);
+            }
+            catch (Exception ex)
+            {
+                LogConversor.Log(ex, ViewData!);
+            }
+        }
+        private Comunicaciones? comunicaciones = null;
+        public async Task<Auditorias?> Guardar(Auditorias? entidad)
+        {
+            if (entidad!.Id != 0)
+            {
+                throw new Exception("lbFaltaInformacion");
+            }
+
+            var datos = new Dictionary<string, object>();
+            datos["Entidad"] = entidad;
+
+            comunicaciones = new Comunicaciones();
+            datos = comunicaciones.ConstruirUrl(datos, "Auditorias/Guardar");
+            var respuesta = await comunicaciones!.Ejecutar(datos);
+
+            if (respuesta.ContainsKey("Error"))
+            {
+                throw new Exception(respuesta["Error"].ToString()!);
+            }
+            entidad = JsonConversor.ConvertirAObjeto<Auditorias>(
+                JsonConversor.ConvertirAString(respuesta["Entidad"]));
+            return entidad;
         }
     }
 }
