@@ -17,6 +17,7 @@ namespace asp_presentacion.Pages
 
         private Comunicaciones? comunicaciones = null;
         public static string RolGlobal { get; set; } = string.Empty;
+        public static int UsuarioGlobal { get; set; }=-1; //Borrar si algo
         [BindProperty] public Enumerables.Ventanas Accion { get; set; }
         [BindProperty] public string? Email { get; set; }
         [BindProperty] public string? Contra { get; set; }
@@ -146,6 +147,7 @@ namespace asp_presentacion.Pages
                         if (lista[i].Cod.Substring(0,3) == "ADM")
                         { RolGlobal = "1"; }
                         EstaLogueado = true;
+                        IndexModel.UsuarioGlobal = lista[i].Id; //Borrar si algo
                         OnPostBtClean();
                         return;
                     }
