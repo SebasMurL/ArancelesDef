@@ -4,6 +4,8 @@ using lib_presentaciones.Implementaciones;
 using lib_presentaciones.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OfficeOpenXml;
+
 
 namespace asp_presentacion.Pages.Ventanas
 {
@@ -11,6 +13,7 @@ namespace asp_presentacion.Pages.Ventanas
     {
         private IFacturasPresentacion? iPresentacion = null;
         private IArancelesPresentacion? iArancelesPresentacion = null; //Se conectara a la tabla paises y lo descargara
+
 
         public FacturasModel(IFacturasPresentacion iPresentacion, IArancelesPresentacion? iArancelesPresentacion)
         {
@@ -130,7 +133,37 @@ namespace asp_presentacion.Pages.Ventanas
         {
             try
             {
-                
+                CargarComboBox();
+                OnPostBtRefrescar();
+                string rutaArchivo = @"C:\\Users\\sebas\\OneDrive\\Escritorio\\Aranceles\\Facturas.xlsx";
+                string DirectoriPath = Path.GetDirectoryName(rutaArchivo)!;
+
+                if (!Directory.Exists(DirectoriPath)) //Si no existe se crea
+                {
+                    Directory.CreateDirectory(DirectoriPath);
+                }
+                ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization"); //Para que sepa que es no comercial :)
+                using (var Paquete = new ExcelPackage())
+                {
+                    var HojaExcel = Paquete.Workbook.Worksheets.Add("Facturas");
+                    //Columnas
+                    HojaExcel.Cells[1, 1].Value = "Codigo";
+                    HojaExcel.Cells[1, 2].Value = "PagoTotalEnCop";
+                    HojaExcel.Cells[1, 3].Value = "CodigoDelArancel";
+                    HojaExcel.Cells[1, 4].Value = "Fecha";
+                    //Informacion
+                    int i = 0;
+                    while (i<Lista.Count)
+                    {
+                        HojaExcel.Cells[i+2, 1].Value = Lista[i].Cod;
+                        HojaExcel.Cells[i+2, 2].Value = Lista[i].PagoTotalCop.ToString();
+                        HojaExcel.Cells[i + 2, 3].Value = ListaAranceles[(Lista[i].Id_Arancel.Value)-1].Cod;
+                        HojaExcel.Cells[i+2, 4].Value = Lista[i].Fecha.Value;
+                        i++;
+                    }
+                    FileInfo archivo = new FileInfo(rutaArchivo);
+                    Paquete.SaveAs(archivo); //Guardamos el archivo
+                }
             }
             catch (Exception ex)
             {
