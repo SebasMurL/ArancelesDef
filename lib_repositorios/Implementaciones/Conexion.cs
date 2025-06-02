@@ -24,6 +24,8 @@ namespace lib_repositorios.Implementaciones
         public DbSet<Facturas>? Facturas { get; set; }
         public DbSet<Roles>? Roles { get; set; }
         public DbSet<Usuarios>? Usuarios { get; set; }
+        public DbSet<Auditorias>? Auditorias { get; set; }
+
 
 
 

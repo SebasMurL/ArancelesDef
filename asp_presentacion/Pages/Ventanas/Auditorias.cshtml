@@ -1,0 +1,253 @@
+﻿@page
+@model asp_presentacion.Pages.Ventanas.AuditoriasModel
+@{
+    ViewData["Titulo"] = "Auditorias";
+}
+<center>
+    <div>
+        <form method="POST"
+        enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>Auditorias</h3> <!--Comentario-->
+            </div>
+            <div align="left"
+            class="bt_panel_buttons">
+                <input type="submit"
+                value="Refrescar"
+                asp-page-handler="BtRefrescar"
+                class="btn btn-secondary"
+                disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+                @if (IndexModel.RolGlobal == "999")
+                {
+                    <input type="submit"
+                    value="Nuevo"
+                    asp-page-handler="BtNuevo"
+                    class="btn btn-secondary"
+                    disabled="@(Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />}
+                @if (IndexModel.RolGlobal == "999")
+                {
+                    <input type="submit"
+                    value="Guardar"
+                    asp-page-handler="BtGuardar"
+                    class="btn btn-secondary"
+                    disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />}
+                <input type="submit"
+                value="Cancelar"
+                asp-page-handler="BtCancelar"
+                class="btn btn-secondary"
+                disabled="@(Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas)" />
+            </div>
+
+            @if (Model.Accion != lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+               Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden"
+                asp-for="@Model.Actual!.Id" />
+            }
+            <!--Informacio que aparece para borrar-->
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <input type="hidden"
+                asp-for="@Model.Actual!.Cod" />
+                <input type="hidden"
+                asp-for="@Model.Actual!.Accion" />
+                <input type="hidden"
+                asp-for="@Model.Actual!.Entidad" />
+                <input type="hidden"
+                asp-for="@Model.Actual!.Informacion" />
+                <input type="hidden"
+                       asp-for="@Model.Actual!.Id_Usuario" />
+                <input type="hidden"
+                       asp-for="@Model.Actual!.Fecha" />
+
+            }
+            <!--Aqui se edita-->
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Editar)
+            {
+                <div class="containers_vn panel panel-default">
+                    <h3>Auditorias</h3>
+
+                    <div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                Codigo
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmCod"
+                                class="cts_forms form-control"
+                                asp-for="@Model.Actual!.Cod" />
+                            </div>
+                            <label class="col-lg-4 control-label">
+                                Accion
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmAccion"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Accion" />
+                            </div>
+                            <label class="col-lg-4 control-label">
+                                Entidad
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmEntidad"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Entidad" />
+                            </div>
+                            <label class="col-lg-4 control-label">
+                                Informacion
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmInformacion"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Informacion" />
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">
+                                    Usuarios
+                                </label>
+                                <div class="col-lg-6">
+                                    <select id="nmUsuarios"
+                                    class="form-control"
+                                    asp-for="@Model.Actual!.Id_Usuario"
+                                    asp-items="@(new SelectList(Model.ListaUsuarios,"Id","Cod"))"> <!--Tiene un comportamiento curioso, el segundo es el que se presenta y toma el primero como valor-->
+                                    </select> <!--El input no soporta asp_items-->
+                                </div>
+                            </div>
+                            <label class="col-lg-4 control-label">
+                                Fecha
+                            </label>
+                            <div class="col-lg-6">
+                                <input id="nmFecha"
+                                       class="cts_forms form-control"
+                                       asp-for="@Model.Actual!.Fecha" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                <input type="hidden"
+                asp-for="@Model.Accion" />
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+            }
+            <!--Mensaje para confirmar borrado-->
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar)
+            {
+                <div class='popup'>
+                    <div class='pp_del_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h4 align="left">
+                                Desea borrar la entidad?
+                            </h4>
+                            <h6 align="left">
+                                @Model.Actual!.Cod <!--Se borra la entidad-->
+                            </h6>
+                            <br />
+                            <br />
+                            <input type="submit"
+                            value="Borrar"
+                            asp-page-handler="BtBorrar"
+                            class="btn btn-secondary" />
+                            <input type="submit"
+                            value="Cerrar"
+                            asp-page-handler="BtCancelar"
+                            class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+            <!--La tabla del inicio-->
+            @if (Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Listas ||
+               Model.Accion == lib_dominio.Nucleo.Enumerables.Ventanas.Borrar) 
+            {
+                <input id="flCod"
+                class="cts_forms form-control"
+                asp-for="@Model.Filtro!.Cod"
+                placeholder="Codigo" />
+                <br />
+                <!--Columnas-->
+                <div class="containers_vn panel panel-default">
+                    <table class="tb_data table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>
+                                Codigo
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                            <th>
+                                Entidad
+                            </th>
+                            <th>
+                                Informacion
+                            </th>
+                            <th>
+                                Usuario
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                        </tr>
+                        @if (Model != null && Model.Lista != null)
+                        {
+                            @foreach (var elemento in Model.Lista)
+                            {
+                                <tr>
+                                    <td>
+                                        @elemento.Cod
+                                    </td>
+                                    <td>
+                                        @elemento.Accion
+                                    </td>
+                                    <td>
+                                        @elemento.Entidad
+                                    </td>
+                                    <td>
+                                        @elemento.Informacion
+                                    </td>
+                                    <td>
+                                        @Model.ListaUsuarios!.FirstOrDefault(p => p.Id == elemento.Id_Usuario)?.Cod
+                                    </td>
+                                    <td>
+                                        @elemento.Fecha
+                                    </td>
+                                    @if (IndexModel.RolGlobal == "999")
+                                    {
+                                        <td>
+                                            <input type="submit"
+                                            value="Modicar"
+                                            asp-page-handler="BtModificar"
+                                            class="btn btn-secondary"
+                                            asp-route-data="@elemento.Id" />
+                                            <input type="submit"
+                                            value="Borrar"
+                                            asp-page-handler="BtBorrarVal"
+                                            class="btn btn-secondary"
+                                            asp-route-data="@elemento.Id" />
+                                        </td>
+                                    }else
+                                    {   
+                                        <td>
+                                         No tienes acciones
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        </form>
+    </div>
+</center>
