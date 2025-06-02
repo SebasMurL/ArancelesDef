@@ -126,6 +126,17 @@ namespace asp_presentacion.Pages.Ventanas
                 LogConversor.Log(ex, ViewData!);
             }
         }
+        public virtual void OnPostBtImprimir(string data)
+        {
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                LogConversor.Log(ex, ViewData!);
+            }
+        }
 
         public virtual void OnPostBtBorrar()
         {
